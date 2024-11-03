@@ -9,10 +9,7 @@ interface IParams {
   conversationId: string;
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: IParams }
-) {
+export async function DELETE({ params }: { params: IParams }) {
   try {
     const currentUser = await getCurrentUser();
     if (!currentUser) {
@@ -51,7 +48,7 @@ export async function DELETE(
           data: [],
         },
         {
-          status: 400,
+          status: 404,
         }
       );
     }
@@ -84,7 +81,7 @@ export async function DELETE(
         data: deletedConversation,
         success: true,
       },
-      { status: 201 }
+      { status: 204 }
     );
   } catch (error) {
     if (error instanceof Error) {
