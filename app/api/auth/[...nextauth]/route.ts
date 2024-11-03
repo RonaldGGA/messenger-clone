@@ -1,3 +1,4 @@
+"use server";
 // import NextAuth, { AuthOptions } from "next-auth";
 // import bcrypt from "bcryptjs";
 // import CredentialsProvider from "next-auth/providers/credentials";

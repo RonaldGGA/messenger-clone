@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import authConfig from "@/auth.config";
 import NextAuth from "next-auth";
-import { NextResponse } from "next/server.js";
+import { NextResponse } from "next/server";
 import { apiRoutes, publicRoutes } from "./routes";
 
 const { auth } = NextAuth(authConfig);
