@@ -1,9 +1,9 @@
 "use server";
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-// import { prisma } from "@/lib/prismadb";
+import { prisma } from "@/lib/prismadb";
 import getConversationById from "@/app/actions/getConversationById";
-// import { pusherServer } from "@/lib/pusher";
+import { pusherServer } from "@/lib/pusher";
 
 interface IParams {
   conversationId: string;
@@ -55,33 +55,33 @@ export async function DELETE(
         }
       );
     }
-    // await prisma.message.deleteMany({
-    //   where: {
-    //     conversationId, // Use the actual conversation ID
-    //   },
-    // });
-    // const deletedConversation = await prisma.conversation.delete({
-    //   where: {
-    //     id: conversationId,
-    //     userIds: {
-    //       hasSome: [currentUser.id],
-    //     },
-    //   },
-    // });
+    await prisma.message.deleteMany({
+      where: {
+        conversationId, // Use the actual conversation ID
+      },
+    });
+    const deletedConversation = await prisma.conversation.delete({
+      where: {
+        id: conversationId,
+        userIds: {
+          hasSome: [currentUser.id],
+        },
+      },
+    });
 
-    // existingConversation.users.forEach((user) => {
-    //   if (user.email) {
-    //     pusherServer.trigger(
-    //       user.email,
-    //       "conversation:remove",
-    //       existingConversation
-    //     );
-    //   }
-    // });
+    existingConversation.users.forEach((user) => {
+      if (user.email) {
+        pusherServer.trigger(
+          user.email,
+          "conversation:remove",
+          existingConversation
+        );
+      }
+    });
     return NextResponse.json(
       {
         message: "Conversation deleted",
-        data: [],
+        data: deletedConversation,
         success: true,
       },
       { status: 204 }
