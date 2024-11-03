@@ -55,33 +55,33 @@ export async function DELETE(
         }
       );
     }
-    await prisma.message.deleteMany({
-      where: {
-        conversationId, // Use the actual conversation ID
-      },
-    });
-    const deletedConversation = await prisma.conversation.delete({
-      where: {
-        id: conversationId,
-        userIds: {
-          hasSome: [currentUser.id],
-        },
-      },
-    });
+    // await prisma.message.deleteMany({
+    //   where: {
+    //     conversationId, // Use the actual conversation ID
+    //   },
+    // });
+    // const deletedConversation = await prisma.conversation.delete({
+    //   where: {
+    //     id: conversationId,
+    //     userIds: {
+    //       hasSome: [currentUser.id],
+    //     },
+    //   },
+    // });
 
-    existingConversation.users.forEach((user) => {
-      if (user.email) {
-        pusherServer.trigger(
-          user.email,
-          "conversation:remove",
-          existingConversation
-        );
-      }
-    });
+    // existingConversation.users.forEach((user) => {
+    //   if (user.email) {
+    //     pusherServer.trigger(
+    //       user.email,
+    //       "conversation:remove",
+    //       existingConversation
+    //     );
+    //   }
+    // });
     return NextResponse.json(
       {
         message: "Conversation deleted",
-        data: deletedConversation,
+        data: [],
         success: true,
       },
       { status: 204 }
